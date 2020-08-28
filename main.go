@@ -216,5 +216,9 @@ func indirectStr(indirect bool) string {
 }
 
 func canCompare(a, b *semver.Version) bool {
-	return (a.Prerelease() == "" && b.Prerelease() == "") || (a.Prerelease() != "" && b.Prerelease() != "")
+	return (isZero(a) && isZero(b)) || (!isZero(a) && !isZero(b))
+}
+
+func isZero(v *semver.Version) bool {
+	return v.Major() == 0 && v.Minor() == 0 && v.Patch() == 0
 }
