@@ -3,9 +3,10 @@
 We recently went through the process of merging a project dependency into the
 main project (removing the dependency) at [InfluxData](https://influxdata.com).
 After struggling to do the `go.mod` merging by hand, I wrote this tool to help
-with the process.The goal is to keep changes the resulting `go.mod` (after
-triggering the `go` tool) to a minimum, and yield a depeendecy graph that's as
-close as possible to the original.
+with the process. The goal of this program is keep changes the resulting
+`go.mod` (after triggering the `go` tool) to a minimum, and yield a depeendecy
+graph that's as close as possible to the original, but with the source module
+no-longer being a dependency of the destination.
 
 ### Usage
 
