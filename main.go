@@ -110,15 +110,18 @@ func mergeRequires(dest, src *modfile.File, forceOverwrite bool) error {
 						return err
 					}
 
-					if forceOverwrite {
+					replace := func() {
+						fmt.Fprintf(os.Stderr, "(require) replace version: %s %s -> %s\n", destR.Mod.Path, destR.Mod.Version, srcR.Mod.Version)
 						destR.Mod.Version = srcR.Mod.Version
+					}
+					if forceOverwrite {
+						replace()
 					} else {
 						if !canCompare(destVersion, srcVersion) {
 							return fmt.Errorf("cannot reconcile difference between versions: dest=%s src=%s", destR.Mod, srcR.Mod)
 						}
 						if srcVersion.LessThan(destVersion) {
-							fmt.Fprintf(os.Stderr, "(require) replace version: %s %s -> %s\n", destR.Mod.Path, destR.Mod.Version, srcR.Mod.Version)
-							destR.Mod.Version = srcR.Mod.Version
+							replace()
 						}
 					}
 				}
